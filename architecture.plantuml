@@ -1,0 +1,51 @@
+@startuml
+
+frame "Person A" as person_A
+frame "Person B" as person_B
+
+package "VotingBooths" {
+  component [VotingBooth1] as VotingBooth1
+  component [VotingBooth2] as VotingBooth2
+}
+
+node "Counting votes" {
+  component [VoteCounter] as VoteCounter
+}
+
+component [VoteGatherer] as VoteGatherer
+
+database  "Gathering votes" as db {
+ folder "Something to gather votes" {
+   [Folder]
+ }
+}
+
+package "Checking votes" {
+  component [VoteChecker] as VoteChecker
+}
+
+
+person_A --> VotingBooth1 : "Votes"
+person_B --> VotingBooth2 : "Votes"
+
+person_A --> VoteChecker : "Checks vote online"
+person_B --> VoteChecker : "Checks vote online"
+
+VotingBooth1 --> VoteGatherer : "Pass results every 1 min"
+VotingBooth2 --> VoteGatherer : "Pass results every 1 min"
+
+VoteGatherer --> VoteCounter : "Voting finished"
+
+VoteGatherer --> db : "Store votes"
+
+VoteChecker --> db : "Check if vote is there"
+
+VoteCounter --> db : "Count once finished"
+
+
+
+
+
+
+
+@enduml

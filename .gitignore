@@ -1,0 +1,27 @@
+# Don't track content of these folders
+autom4te.cache/
+m4/
+src/.deps/
+COPYING
+INSTALL
+Makefile
+Makefile.in
+aclocal.m4
+compile
+config.guess
+config.h
+config.h.in
+config.log
+config.status
+config.sub
+configure
+depcomp
+install-sh
+libtool
+ltmain.sh
+missing
+src/Makefile
+src/*.in
+src/main
+src/*.o
+stamp-h1
