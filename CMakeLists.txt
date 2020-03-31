@@ -11,5 +11,11 @@ add_subdirectory (src)
 
 enable_testing()
 
+include(cmake/googletest.cmake)
+fetch_googletest(
+    ${PROJECT_SOURCE_DIR}/cmake
+    ${PROJECT_BINARY_DIR}/googletest
+    )
+
 # this shall work fine, but... I don't have time to do that
 add_subdirectory (tests)# EXCLUDE_FROM_ALL)
