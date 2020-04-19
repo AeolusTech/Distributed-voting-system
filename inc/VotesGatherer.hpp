@@ -1,6 +1,9 @@
-#pragma once
+#ifndef VOTESGATHERER_HPP
+#define VOTESGATHERER_HPP
 
+namespace Gatherer
+{
+void PrintHello();
+}  // namespace Gatherer
 
-namespace Gatherer {
-  void PrintHello();
-}
+#endif  // VOTESGATHERER_HPP
