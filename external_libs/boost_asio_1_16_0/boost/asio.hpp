@@ -12,10 +12,9 @@
 
 #ifndef BOOST_ASIO_HPP
 #define BOOST_ASIO_HPP
-
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
-# pragma once
-#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+#pragma once
+#endif  // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include <boost/asio/associated_allocator.hpp>
 #include <boost/asio/associated_executor.hpp>
@@ -143,4 +142,4 @@
 #include <boost/asio/write.hpp>
 #include <boost/asio/write_at.hpp>
 
-#endif // BOOST_ASIO_HPP
+#endif  // BOOST_ASIO_HPP

@@ -1,4 +1,5 @@
-set(BOOST_ASIO_HEADER_DIR ${PROJECT_SOURCE_DIR}/external_libs)
+set(BOOST_ASIO_HEADER_DIR ${PROJECT_SOURCE_DIR}/external_libs/boost_asio_1_16_0)
+include_directories(${BOOST_ASIO_HEADER_DIR})
 
 add_executable(boost_asio_example boost_example.cpp)
 target_link_libraries(boost_asio_example pthread)
