@@ -1,5 +1,11 @@
-add_executable(main VotesGatherer.cpp main.cpp)
+set(BOOST_ASIO_HEADER_DIR ${PROJECT_SOURCE_DIR}/external_libs)
 
+add_executable(boost_asio_example boost_example.cpp)
+target_link_libraries(boost_asio_example pthread)
+target_include_directories(boost_asio_example PUBLIC ${BOOST_ASIO_HEADER_DIR})
+
+
+add_executable(main VotesGatherer.cpp main.cpp)
 target_include_directories(main PRIVATE ../inc)
 set_target_properties( main
     PROPERTIES
