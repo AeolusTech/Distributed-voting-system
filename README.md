@@ -13,9 +13,22 @@ Console based system which resembles microservices architecture and allows to pe
 6. Provides interface that makes it easy to change communication mechanism (or even compare it). Let's play with ZeroMQ, boost::asio
 7. Uses abstract factory pattern and observer pattern
 8. Does not use raw pointers but only std::unique_ptr and std::shared_ptr
-9. ~~Uses Conan as package manager~~ project is too simple to use package manager ~~vcpkg has been used successfully as package manager. Just go to https://github.com/microsoft/vcpkg. It's really easy~~
+9. ~~Uses Conan as package manager~~ project is too simple to use package manager **vcpkg has been used successfully as package manager. Just go to https://github.com/microsoft/vcpkg. It's really easy.
 
 
 
 ### Nice to have
 1. Custom allocator (http://dmitrysoshnikov.com/compilers/writing-a-memory-allocator/)
+
+
+
+
+
+## Project setup
+
+1. setup boost
+sudo add-apt-repository ppa:mhier/libboost-latest
+sudo apt-get update
+sudo apt-get install
+sudo apt-get install libboost1.70-dev
+2. Next step (easier formatting)
