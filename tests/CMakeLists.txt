@@ -1,5 +1,7 @@
 
 add_executable(VotesGathererUT VotesGathererUT.cpp)
+include_directories(../ifc)
+
 target_include_directories(VotesGathererUT PRIVATE ../inc)
 target_link_libraries(VotesGathererUT gtest_main)
 

@@ -1,9 +1,14 @@
-#ifndef VOTESGATHERER_HPP
-#define VOTESGATHERER_HPP
+#ifndef VOTING_BOOTH_HPP
+#define VOTING_BOOTH_HPP
 
-namespace Gatherer
+#include "../ifc/IVotesGatherer.hpp"
+
+class VotesGatherer final : public IVotesGatherer
 {
-void PrintHello();
-}  // namespace Gatherer
+public:
+  ~VotesGatherer() = default;
+  void Run() override;
+  void Collect() override;
+};
 
-#endif  // VOTESGATHERER_HPP
+#endif

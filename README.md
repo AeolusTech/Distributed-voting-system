@@ -32,3 +32,4 @@ sudo apt-get update
 sudo apt-get install
 sudo apt-get install libboost1.70-dev
 2. Next step (easier formatting)
+3. No sudo needed for binding to sockets (UNIX resticts ports up to 1024 to root)
