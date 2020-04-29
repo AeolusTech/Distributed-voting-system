@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request
@@ -22,15 +20,21 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: Install boost
-      run: sudo add-apt-repository -y ppa:mhier/libboost-latest && sudo apt-get update && sudo apt-get install -y libboost1.70-dev && sudo apt-get install -y ninja-build
+    # - name: Install boost
+    #   run: sudo add-apt-repository -y ppa:mhier/libboost-latest && sudo apt-get update && sudo apt-get install -y libboost1.70-dev && sudo apt-get install -y ninja-build
 
-    # Runs a single command using the runners shell
+    - name: Install zeromq
+      run: |
+        sudo apt-get update && sudo apt-get install -y libtool pkg-config
+        git clone git://github.com/jedisct1/libsodium.git &&  cd libsodium && ./autogen.sh && ./configure && make check -j$(nproc) && sudo make install && sudo ldconfig && cd ../
+        git clone git://github.com/zeromq/libzmq.git && cd libzmq && ./autogen.sh && ./configure && make -j$(nproc) && sudo make install && sudo ldconfig && cd ../
+        git clone git://github.com/zeromq/zmqpp.git && cd zmqpp && make -j$(nproc) && sudo make install && cd ..
+
     - name: run CMake
       run: cmake -G "Ninja" $GITHUB_WORKSPACE
 
-    # Runs a set of commands using the runners shell
-    - name: Make all targets and run test
-      run: |
-        ninja -j 4
-        ctest -V
+    - name: Make all targets
+      run: ninja
+
+    - name: Run tests
+      run: ctest -V

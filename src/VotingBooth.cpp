@@ -16,12 +16,14 @@ void VotingBooth::Run()
 
 void VotingBooth::SendResultsToVoteGatherer()
 {
+  const std::string PROTOCOL = "http";
+
   try
   {
     boost::asio::io_context io_context;
 
     tcp::resolver resolver(io_context);
-    tcp::resolver::results_type endpoints = resolver.resolve("", "daytime");
+    tcp::resolver::results_type endpoints = resolver.resolve("", PROTOCOL);
 
     tcp::socket socket(io_context);
     boost::asio::connect(socket, endpoints);

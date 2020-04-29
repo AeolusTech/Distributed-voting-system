@@ -19,11 +19,13 @@ void VotesGatherer::Run()
 }
 void VotesGatherer::Collect()
 {
+  const int PORN_NO = 13566;
+
   try
   {
     boost::asio::io_context io_context;
 
-    tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 10344));
+    tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), PORN_NO));
 
     for (;;)
     {
