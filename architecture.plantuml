@@ -12,7 +12,7 @@ node "Counting votes" {
   component [VoteCounter] as VoteCounter
 }
 
-component [VoteGatherer] as VoteGatherer
+component [VotesGatherer] as VotesGatherer
 
 database  "Gathering votes" as db {
  folder "Something to gather votes" {
@@ -31,12 +31,12 @@ person_B --> VotingBooth2 : "Votes"
 person_A --> VoteChecker : "Checks vote online"
 person_B --> VoteChecker : "Checks vote online"
 
-VotingBooth1 --> VoteGatherer : "Pass results every 1 min"
-VotingBooth2 --> VoteGatherer : "Pass results every 1 min"
+VotingBooth1 --> VotesGatherer : "Pass results every 1 min"
+VotingBooth2 --> VotesGatherer : "Pass results every 1 min"
 
-VoteGatherer --> VoteCounter : "Voting finished"
+VotesGatherer --> VoteCounter : "Voting finished"
 
-VoteGatherer --> db : "Store votes"
+VotesGatherer --> db : "Store votes"
 
 VoteChecker --> db : "Check if vote is there"
 
