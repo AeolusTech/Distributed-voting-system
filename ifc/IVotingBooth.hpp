@@ -8,6 +8,7 @@ public:
   virtual void Vote() = 0;
   virtual void Run() = 0;
   virtual void SendResultsToVoteGatherer() = 0;
+  virtual void Stop() = 0;
 };
 
 #endif

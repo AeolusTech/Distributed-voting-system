@@ -1,9 +1,9 @@
 
-add_executable(VotesGathererUT VotesGathererUT.cpp)
+add_executable(VotesGathererUT VotesGathererUT.cpp ../src/VotesGatherer.cpp ../src/VotingBooth.cpp)
 include_directories(../ifc)
 
 target_include_directories(VotesGathererUT PRIVATE ../inc)
-target_link_libraries(VotesGathererUT gtest_main)
+target_link_libraries(VotesGathererUT gtest_main zmq zmqpp)
 
 set_target_properties( VotesGathererUT
     PROPERTIES

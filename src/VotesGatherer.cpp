@@ -1,45 +1,37 @@
 #include "VotesGatherer.hpp"
+#include "Config.hpp"
 
-#include <ctime>
 #include <iostream>
-#include <string>
-#include <boost/asio.hpp>
-
-using boost::asio::ip::tcp;
-
-std::string make_daytime_string()
-{
-  using namespace std;  // For time_t, time and ctime;
-  time_t now = time(0);
-  return ctime(&now);
-}
+#include <chrono>
+#include <thread>
 
 void VotesGatherer::Run()
 {
+  const std::string endpoint{ std::string("tcp://*:") + std::to_string(config::PORT_NO) };
+  socket.bind(endpoint);
+  while (run)
+  {
+    Collect();
+  }
 }
+
+void VotesGatherer::Stop()
+{
+  run = false;
+}
+
 void VotesGatherer::Collect()
 {
-  const int PORN_NO = 13566;
+  zmqpp::message message;
+  socket.receive(message);
+  message >> votes_no;
 
-  try
-  {
-    boost::asio::io_context io_context;
+  std::this_thread::sleep_for(std::chrono::milliseconds(20));
+  std::cout << "Received votes. Count: " << votes_no << "\n";
+  socket.send(std::to_string(votes_no));
+}
 
-    tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), PORN_NO));
-
-    for (;;)
-    {
-      tcp::socket socket(io_context);
-      acceptor.accept(socket);
-
-      std::string message = make_daytime_string();
-
-      boost::system::error_code ignored_error;
-      boost::asio::write(socket, boost::asio::buffer(message), ignored_error);
-    }
-  }
-  catch (std::exception& e)
-  {
-    std::cerr << e.what() << std::endl;
-  }
+int VotesGatherer::GetResults() const
+{
+  return votes_no;
 }

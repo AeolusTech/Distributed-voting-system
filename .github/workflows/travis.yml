@@ -23,12 +23,16 @@ jobs:
     # - name: Install boost
     #   run: sudo add-apt-repository -y ppa:mhier/libboost-latest && sudo apt-get update && sudo apt-get install -y libboost1.70-dev && sudo apt-get install -y ninja-build
 
-    - name: Install zeromq
+    - name: Install zeromq, libtool, PkgConfig and Ninja
       run: |
-        sudo apt-get update && sudo apt-get install -y libtool pkg-config
-        git clone git://github.com/jedisct1/libsodium.git &&  cd libsodium && ./autogen.sh && ./configure && make check -j$(nproc) && sudo make install && sudo ldconfig && cd ../
-        git clone git://github.com/zeromq/libzmq.git && cd libzmq && ./autogen.sh && ./configure && make -j$(nproc) && sudo make install && sudo ldconfig && cd ../
-        git clone git://github.com/zeromq/zmqpp.git && cd zmqpp && make -j$(nproc) && sudo make install && cd ..
+        sudo apt-get update && sudo apt-get install -y libtool pkg-config ninja
+        git clone git://github.com/jedisct1/libsodium.git &&  cd libsodium && ./autogen.sh && ./configure --prefix /usr && make check -j$(nproc) && sudo make install && sudo ldconfig && cd ../
+        git clone git://github.com/zeromq/libzmq.git && cd libzmq && ./autogen.sh && ./configure --prefix /usr && make -j$(nproc) && sudo make install && sudo ldconfig && cd ../
+        git clone git://github.com/zeromq/zmqpp.git && cd zmqpp && make -j$(nproc) && sudo make sudo make PREFIX=/usr install && cd ..
+
+    - name: Install docker.io
+      run: |
+        sudo apt-get install docker.io
 
     - name: run CMake
       run: cmake -G "Ninja" $GITHUB_WORKSPACE

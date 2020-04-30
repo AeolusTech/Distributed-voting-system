@@ -1,50 +1,37 @@
 #include "VotingBooth.hpp"
+#include "Config.hpp"
 
 #include <iostream>
-#include <boost/array.hpp>
-#include <boost/asio.hpp>
-
-using boost::asio::ip::tcp;
 
 void VotingBooth::Vote()
 {
+  votes++;
 }
 
 void VotingBooth::Run()
 {
+  std::cout << "Connecting to hello world server…\n";
+  const std::string endpoint{ std::string("tcp://localhost:") + std::to_string(config::PORT_NO) };
+  socket.connect(endpoint);
+  while (run)
+  {
+    SendResultsToVoteGatherer();
+  }
+}
+
+void VotingBooth::Stop()
+{
+  run = false;
 }
 
 void VotingBooth::SendResultsToVoteGatherer()
 {
-  const std::string PROTOCOL = "http";
+  std::cout << "Sending vote no: " << votes << "…\n";
+  zmqpp::message message;
+  message << votes;
+  socket.send(message);
+  std::string response;
+  socket.receive(response);
 
-  try
-  {
-    boost::asio::io_context io_context;
-
-    tcp::resolver resolver(io_context);
-    tcp::resolver::results_type endpoints = resolver.resolve("", PROTOCOL);
-
-    tcp::socket socket(io_context);
-    boost::asio::connect(socket, endpoints);
-
-    while (true)
-    {
-      boost::array<char, 128> buf;
-      boost::system::error_code error;
-
-      size_t len = socket.read_some(boost::asio::buffer(buf), error);
-
-      if (error == boost::asio::error::eof)
-        break;  // Connection closed cleanly by peer.
-      else if (error)
-        throw boost::system::system_error(error);  // Some other error.
-
-      std::cout.write(buf.data(), len);
-    }
-  }
-  catch (std::exception& e)
-  {
-    std::cerr << e.what() << std::endl;
-  }
+  std::cout << "Received " << response << "\n";
 }
