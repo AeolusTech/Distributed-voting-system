@@ -30,10 +30,6 @@ jobs:
         git clone git://github.com/zeromq/libzmq.git && cd libzmq && ./autogen.sh && ./configure --prefix /usr && make -j$(nproc) && sudo make install && sudo ldconfig && cd ../
         git clone git://github.com/zeromq/zmqpp.git && cd zmqpp && make -j$(nproc) && sudo make PREFIX=/usr install && cd ..
 
-    - name: Install docker.io
-      run: |
-        sudo apt-get install docker.io
-
     - name: run CMake
       run: cmake -G "Ninja" $GITHUB_WORKSPACE
 
