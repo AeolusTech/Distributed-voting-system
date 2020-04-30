@@ -25,7 +25,7 @@ jobs:
 
     - name: Install zeromq, libtool, PkgConfig and Ninja
       run: |
-        sudo apt-get update && sudo apt-get install -y libtool pkg-config ninja
+        sudo apt-get update && sudo apt-get install -y libtool pkg-config ninja-build
         git clone git://github.com/jedisct1/libsodium.git &&  cd libsodium && ./autogen.sh && ./configure --prefix /usr && make check -j$(nproc) && sudo make install && sudo ldconfig && cd ../
         git clone git://github.com/zeromq/libzmq.git && cd libzmq && ./autogen.sh && ./configure --prefix /usr && make -j$(nproc) && sudo make install && sudo ldconfig && cd ../
         git clone git://github.com/zeromq/zmqpp.git && cd zmqpp && make -j$(nproc) && sudo make sudo make PREFIX=/usr install && cd ..
