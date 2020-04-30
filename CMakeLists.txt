@@ -3,9 +3,8 @@ project (DistributedVotingSystem
 		 VERSION 0.1
 		 LANGUAGES CXX
         )
-set(CMAKE_CXX_STANDARD 17) # C++17 has to be used because of Github Actions (Ubuntu 18.04)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-# set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option (FORCE_COLORED_OUTPUT "Always produce ANSI-colored output (GNU/Clang only)." TRUE)
 if (${FORCE_COLORED_OUTPUT})
@@ -16,7 +15,6 @@ if (${FORCE_COLORED_OUTPUT})
     endif ()
 endif ()
 
-#those lines should be removed and travs.yml shall be used
 include(cmake/googletest.cmake)
 fetch_googletest(
     ${PROJECT_SOURCE_DIR}/cmake
@@ -26,5 +24,4 @@ fetch_googletest(
 add_subdirectory (src)
 
 enable_testing()
-
 add_subdirectory (tests)# EXCLUDE_FROM_ALL)
