@@ -3,6 +3,13 @@
 
 #include <iostream>
 
+VotingBooth::VotingBooth()
+{
+  std::cout << "Connecting to hello world server…\n";
+  const std::string endpoint{ std::string("tcp://localhost:") + std::to_string(config::PORT_NO) };
+  socket.connect(endpoint);
+}
+
 void VotingBooth::Vote()
 {
   votes++;
@@ -10,9 +17,6 @@ void VotingBooth::Vote()
 
 void VotingBooth::Run()
 {
-  std::cout << "Connecting to hello world server…\n";
-  const std::string endpoint{ std::string("tcp://localhost:") + std::to_string(config::PORT_NO) };
-  socket.connect(endpoint);
   while (run)
   {
     SendResultsToVoteGatherer();

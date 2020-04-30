@@ -9,7 +9,7 @@
 class VotingBooth final : public IVotingBooth
 {
 public:
-  VotingBooth() = default;
+  VotingBooth();
   VotingBooth(const VotingBooth&) = delete;
   VotingBooth(VotingBooth&&) = default;
   VotingBooth& operator=(const VotingBooth&) = delete;

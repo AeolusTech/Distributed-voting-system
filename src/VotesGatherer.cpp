@@ -5,10 +5,14 @@
 #include <chrono>
 #include <thread>
 
-void VotesGatherer::Run()
+VotesGatherer::VotesGatherer()
 {
   const std::string endpoint{ std::string("tcp://*:") + std::to_string(config::PORT_NO) };
   socket.bind(endpoint);
+}
+
+void VotesGatherer::Run()
+{
   while (run)
   {
     Collect();

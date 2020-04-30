@@ -9,7 +9,7 @@
 class VotesGatherer final : public IVotesGatherer
 {
 public:
-  VotesGatherer() = default;
+  VotesGatherer();
   VotesGatherer(const VotesGatherer&) = delete;
   VotesGatherer(VotesGatherer&&) = default;
   VotesGatherer& operator=(const VotesGatherer&) = delete;
