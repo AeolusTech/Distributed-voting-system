@@ -1,0 +1,47 @@
+@startuml
+
+actor "Person A" as person_A
+actor "Person B" as person_B
+
+node "PC HTTP clients for people" <<subsystem>> {
+  component [VotingBooth] as VotingBooth
+  component [OnlineVoter] as OnlineVoter
+  component [VoteChecker] as VoteChecker
+  entity HTTP
+}
+
+node "Government based apps"  <<subsystem>> {
+  component [VoteCounter] as VoteCounter
+  component [VotesGatherer] as VotesGatherer
+  database  "Storing votes" as db {
+  }
+}
+
+
+
+
+person_A --> VotingBooth : "Votes"
+person_B --> OnlineVoter : "Votes"
+
+person_A --> VoteChecker : "Checks vote online"
+person_B --> VoteChecker : "Checks vote online"
+
+VotingBooth --> VotesGatherer : "Pass results every 1 min"
+OnlineVoter --> VotesGatherer : "Pass results every 1 min"
+
+VotesGatherer -> VoteCounter : "Voting finished"
+
+VotesGatherer --> db : "Store votes"
+
+VoteChecker --> db : "Check if my vote is there\n(is blockchain valid)"
+
+VoteCounter --> db : "count votes"
+
+' db <-- VoteCounter : "count votes"
+
+VoteCounter --> HTTP : "upload results"
+
+person_A -> HTTP : "Check results"
+person_B -> HTTP : "Check results"
+
+@enduml

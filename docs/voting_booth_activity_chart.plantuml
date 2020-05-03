@@ -1,0 +1,18 @@
+@startuml
+
+start
+:Initialize program;
+
+repeat
+
+:Establish connection with VotesGatherer;
+
+while (connection with Votes Gatherer) is (OK)
+    :sth;
+endwhile (FAILED)
+
+
+:Report failure;
+:Wait 5 min;
+
+@enduml

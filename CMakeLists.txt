@@ -22,6 +22,7 @@ fetch_googletest(
     )
 
 add_subdirectory (src)
+add_subdirectory (docs)
 
 enable_testing()
 add_subdirectory (tests)# EXCLUDE_FROM_ALL)

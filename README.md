@@ -42,9 +42,15 @@ sudo apt-get install libboost1.70-dev
 2. Next step (easier formatting)
 3. No sudo needed for binding to sockets (UNIX resticts ports up to 1024 to root)
 
-Class diagram
+UMLs
 -------------
-![General diagram](docs/architecture.svg)
+
+## Component diagram
+![Component diagram](./docs/generated/component_diagram.png)
+
+## Activity charts
+### Voting booth chart
+![Voting booth activity chart](./docs/generated/voting_booth_activity_chart.png)
 
 
 Contributing
