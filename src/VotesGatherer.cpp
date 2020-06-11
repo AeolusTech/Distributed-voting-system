@@ -30,7 +30,7 @@ void VotesGatherer::Collect()
   socket.receive(message);
   message >> votes_no;
 
-  std::this_thread::sleep_for(std::chrono::milliseconds(20));
+  std::this_thread::sleep_for(config::DELAY_CHECK);
   std::cout << "Received votes. Count: " << votes_no << "\n";
   socket.send(std::to_string(votes_no));
 }
