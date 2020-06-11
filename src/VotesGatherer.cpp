@@ -39,3 +39,7 @@ int VotesGatherer::GetResults() const
 {
   return votes_no;
 }
+
+void VotesGatherer::Save()
+{
+}

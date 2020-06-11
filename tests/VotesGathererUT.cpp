@@ -45,7 +45,7 @@ TEST_F(VotingTest, no_votes)
 TEST_F(VotingTest, votes_success)
 {
   booth.Vote();
-  std::this_thread::sleep_for(std::chrono::milliseconds(config::DELAY_CHECK * 2));
+  std::this_thread::sleep_for(std::chrono::milliseconds(config::DELAY_CHECK * 3));
   booth.Stop();
   gatherer.Stop();
   EXPECT_EQ(1, gatherer.GetResults());

@@ -23,9 +23,9 @@ jobs:
     # - name: Install boost
     #   run: sudo add-apt-repository -y ppa:mhier/libboost-latest && sudo apt-get update && sudo apt-get install -y libboost1.70-dev && sudo apt-get install -y ninja-build
 
-    - name: Install zeromq, libtool, PkgConfig and Ninja
+    - name: Install zeromq, libtool, PkgConfig and Ninja, sqlite3
       run: |
-        sudo apt-get update && sudo apt-get install -y libtool pkg-config ninja-build
+        sudo apt-get update && sudo apt-get install -y libtool pkg-config ninja-build sqlite3
         git clone git://github.com/jedisct1/libsodium.git &&  cd libsodium && ./autogen.sh && ./configure --prefix /usr && make check -j$(nproc) && sudo make install && sudo ldconfig && cd ../
         git clone git://github.com/zeromq/libzmq.git && cd libzmq && ./autogen.sh && ./configure --prefix /usr && make -j$(nproc) && sudo make install && sudo ldconfig && cd ../
         git clone git://github.com/zeromq/zmqpp.git && cd zmqpp && make -j$(nproc) && sudo make PREFIX=/usr install && cd ..

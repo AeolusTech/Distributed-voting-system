@@ -23,6 +23,8 @@ public:
   int GetResults() const;
 
 private:
+  void Save();
+
   zmqpp::context context;
   zmqpp::socket_type type{ zmqpp::socket_type::reply };
   zmqpp::socket socket{ context, type };
