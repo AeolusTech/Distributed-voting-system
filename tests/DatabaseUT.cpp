@@ -58,3 +58,32 @@ TEST_F(DatabaseTest, DoubleSaveTest)
     db.SaveVote();
   });
 }
+
+TEST_F(DatabaseTest, ReadEmptyDBDoesNotFail)
+{
+  EXPECT_NO_THROW({
+    auto msg = db.ReadVotes();
+    EXPECT_TRUE(msg.empty());
+  });
+}
+
+TEST_F(DatabaseTest, Read1Record)
+{
+  EXPECT_NO_THROW({
+    db.SaveVote();
+    auto msg = db.ReadVotes();
+    ASSERT_FALSE(msg.empty());
+    EXPECT_EQ(2, msg.length());
+  });
+}
+
+TEST_F(DatabaseTest, Read2Record)
+{
+  EXPECT_NO_THROW({
+    db.SaveVote();
+    db.SaveVote();
+    auto msg = db.ReadVotes();
+    ASSERT_FALSE(msg.empty());
+    EXPECT_EQ(4, msg.length());
+  });
+}

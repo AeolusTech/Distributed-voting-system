@@ -2,13 +2,6 @@
 #include "Config.hpp"
 #include <stdexcept>
 
-// Create a callback function
-int callback(void* NotUsed, int argc, char** argv, char** azColName)
-{
-  // Return successful
-  return 0;
-}
-
 Database::Database(const std::string& filename) : m_filename(filename), uniqueID(0)
 {
   if (sqlite3_open(m_filename.c_str(), &m_pDb))
@@ -47,6 +40,35 @@ void Database::SaveVote()
     throw std::runtime_error(m_errorString);
   }
   uniqueID++;
+}
+
+std::string Database::ReadVotes()
+{
+  std::string sql_command = "SELECT VOTE FROM VOTES";
+
+  char* errorBuffer = m_errorString.data();
+
+  char** results = nullptr;
+  int rowsNumber = 0;
+  int columnsNumber = 0;
+
+  int rc = sqlite3_get_table(m_pDb, sql_command.c_str(), &results, &rowsNumber, &columnsNumber,
+                             &errorBuffer);
+
+  if (rc != 0)
+  {
+    throw std::runtime_error(m_errorString);
+  }
+
+  std::string readInput = "";
+  int omitColumnName = 1;
+  for (int i = omitColumnName; i < rowsNumber + omitColumnName; i++)
+  {
+    readInput.append(results[i]);
+    readInput.append(" ");
+  }
+
+  return readInput;
 }
 
 void Database::CreateTable()

@@ -12,6 +12,7 @@ public:
   explicit Database(const std::string& filename);
   ~Database();
   void SaveVote();
+  std::string ReadVotes();
 
 private:
   void CreateTable();
