@@ -1,4 +1,5 @@
 #include "Database.hpp"
+#include "Config.hpp"
 #include <stdexcept>
 
 // Create a callback function
@@ -8,7 +9,7 @@ int callback(void* NotUsed, int argc, char** argv, char** azColName)
   return 0;
 }
 
-Database::Database(const std::string& filename) : m_filename(filename)
+Database::Database(const std::string& filename) : m_filename(filename), uniqueID(0)
 {
   if (sqlite3_open(m_filename.c_str(), &m_pDb))
   {
@@ -32,34 +33,50 @@ Database::~Database()
 
 void Database::SaveVote()
 {
+  const std::string name = "john";
+  const int voteNo = 1;
+  std::string sql_command = "INSERT INTO " + config::VOTES_TABLE_NAME + " VALUES (" +
+                            std::to_string(uniqueID) + ", \"" + name + "\", " +
+                            std::to_string(voteNo) + ");";
+
+  char* errorBuffer = m_errorString.data();
+  int rc = sqlite3_exec(m_pDb, sql_command.c_str(), nullptr, 0, &errorBuffer);
+
+  if (rc != 0)
+  {
+    throw std::runtime_error(m_errorString);
+  }
+  uniqueID++;
 }
 
-bool Database::CreateTable()
+void Database::CreateTable()
 {
-  std::string sql_command = "CREATE TABLE PEOPLE ("
-                            "ID INT PRIMARY KEY     NOT NULL,"
-                            "NAME           TEXT    NOT NULL);";
+  std::string sql_command = "CREATE TABLE " + config::VOTES_TABLE_NAME +
+                            "(ID INT PRIMARY KEY     NOT NULL,"
+                            "NAME           VARCHAR(20)    NOT NULL,"
+                            "VOTE           INT    NOT NULL);";
 
   std::string zErrMsg;
   auto error_buffer = zErrMsg.data();
 
-  int rc = sqlite3_exec(m_pDb, sql_command.c_str(), nullptr, 0, &error_buffer);
+  char* errorBuffer = m_errorString.data();
+  int rc = sqlite3_exec(m_pDb, sql_command.c_str(), nullptr, 0, &errorBuffer);
 
   if (rc != 0)
   {
-    throw std::runtime_error(zErrMsg);
+    throw std::runtime_error(m_errorString);
   }
 }
 
 bool Database::TableAlreadyCreated()
 {
-  std::string sql_command = "SELECT * FROM PEOPLE";
+  std::string sql_command = "SELECT * FROM " + config::VOTES_TABLE_NAME + ";";
 
   std::string zErrMsg;
   auto error_buffer = zErrMsg.data();
 
-  sqlite3_open(m_filename.c_str(), &m_pDb);
-  int rc = sqlite3_exec(m_pDb, sql_command.c_str(), nullptr, 0, &error_buffer);
+  char* errorBuffer = m_errorString.data();
+  int rc = sqlite3_exec(m_pDb, sql_command.c_str(), nullptr, 0, &errorBuffer);
 
   return (rc != 0) ? false : true;
 }

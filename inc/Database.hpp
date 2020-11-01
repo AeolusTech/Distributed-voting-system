@@ -14,11 +14,13 @@ public:
   void SaveVote();
 
 private:
-  bool CreateTable();
+  void CreateTable();
   bool TableAlreadyCreated();
 
   sqlite3* m_pDb;
   std::string m_filename;
+  unsigned uniqueID;
+  std::string m_errorString;
 };
 
 #endif
