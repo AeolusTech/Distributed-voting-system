@@ -1,11 +1,19 @@
+set (SOURCES_UT
+  VotesGathererUT.cpp
+  DatabaseUT.cpp
+  ../src/VotesGatherer.cpp
+  ../src/VotingBooth.cpp
+  ../src/Database.cpp
+  ../src/sqlite3.c
+)
 
-add_executable(VotesGathererUT VotesGathererUT.cpp ../src/VotesGatherer.cpp ../src/VotingBooth.cpp)
+add_executable(uts ${SOURCES_UT})
 include_directories(../ifc)
 
-target_include_directories(VotesGathererUT PRIVATE ../inc)
-target_link_libraries(VotesGathererUT gtest_main zmq zmqpp)
+target_include_directories(uts PRIVATE ../inc)
+target_link_libraries(uts gtest_main zmq zmqpp dl)
 
-set_target_properties( VotesGathererUT
+set_target_properties( uts
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
@@ -17,5 +25,5 @@ add_test(
   NAME
     ut
   COMMAND
-     env GTEST_COLOR=1 ${CMAKE_BINARY_DIR}/bin/VotesGathererUT
+     env GTEST_COLOR=1 ${CMAKE_BINARY_DIR}/bin/uts
   )

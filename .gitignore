@@ -26,3 +26,4 @@ src/main
 src/*.o
 stamp-h1
 build
+db.sqlite
