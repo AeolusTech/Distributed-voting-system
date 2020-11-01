@@ -27,7 +27,7 @@ set(SOURCES_GATHERER
 )
 
 add_executable(gatherer ${SOURCES_GATHERER})
-target_link_libraries(gatherer ${COMMON_LIBS} dl)
+target_link_libraries(gatherer ${COMMON_LIBS} dl pthread)
 set_target_properties( gatherer
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"

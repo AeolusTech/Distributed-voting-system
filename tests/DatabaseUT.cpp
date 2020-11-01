@@ -12,7 +12,6 @@ public:
   {
   }
 
-private:
   Database db;
   constexpr static const auto PATH_OK = "./db.sqlite";
 };
@@ -23,6 +22,7 @@ TEST_F(DatabaseTest, ConstructionTest)
   ASSERT_ANY_THROW(Database invalid_db(PATH_INVALID););
 }
 
-TEST_F(DatabaseTest, DISABLED_SaveTest)
+TEST_F(DatabaseTest, SaveTest)
 {
+  EXPECT_NO_THROW(db.SaveVote());
 }

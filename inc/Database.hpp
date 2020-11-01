@@ -14,6 +14,9 @@ public:
   void SaveVote();
 
 private:
+  bool CreateTable();
+  bool TableAlreadyCreated();
+
   sqlite3* m_pDb;
   std::string m_filename;
 };
