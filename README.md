@@ -2,7 +2,6 @@
 
 
 
-
 **Distributed voting system**
 =============================
 
