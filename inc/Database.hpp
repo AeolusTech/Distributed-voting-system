@@ -9,7 +9,7 @@ extern "C" {
 class Database final
 {
 public:
-  explicit Database(const std::string& filename);
+  explicit Database(const std::string &filename);
   ~Database();
   void SaveVote();
   std::string ReadVotes();
@@ -18,10 +18,12 @@ private:
   void CreateTable();
   bool TableAlreadyCreated();
 
-  sqlite3* m_pDb;
+  sqlite3 *m_pDb;
   std::string m_filename;
   unsigned uniqueID;
   std::string m_errorString;
+  constexpr static const size_t buffer_size = 1024;
+  char *m_charBuffer;
 };
 
 #endif

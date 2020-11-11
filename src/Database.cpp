@@ -2,18 +2,18 @@
 #include "Config.hpp"
 #include <stdexcept>
 
-Database::Database(const std::string& filename) : m_filename(filename), uniqueID(0)
+
+Database::Database(const std::string &filename) : m_filename(filename), uniqueID(0)
 {
-  if (sqlite3_open(m_filename.c_str(), &m_pDb))
-  {
+  m_errorString.reserve(buffer_size);
+  m_charBuffer = &(*m_errorString.begin());// set after reserve
+
+  if (sqlite3_open(m_filename.c_str(), &m_pDb)) {
     std::string errorMessage = "Could not open database";
     errorMessage.append(sqlite3_errmsg(m_pDb));
     throw std::runtime_error(errorMessage);
-  }
-  else
-  {
-    if (!TableAlreadyCreated())
-    {
+  } else {
+    if (!TableAlreadyCreated()) {
       CreateTable();
     }
   }
@@ -28,15 +28,12 @@ void Database::SaveVote()
 {
   const std::string name = "john";
   const int voteNo = 1;
-  std::string sql_command = "INSERT INTO " + config::VOTES_TABLE_NAME + " VALUES (" +
-                            std::to_string(uniqueID) + ", \"" + name + "\", " +
-                            std::to_string(voteNo) + ");";
+  std::string sql_command = "INSERT INTO " + config::VOTES_TABLE_NAME + " VALUES (" + std::to_string(uniqueID) + ", \"" + name + "\", " + std::to_string(voteNo) + ");";
 
-  char* errorBuffer = m_errorString.data();
-  int rc = sqlite3_exec(m_pDb, sql_command.c_str(), nullptr, 0, &errorBuffer);
 
-  if (rc != 0)
-  {
+  int rc = sqlite3_exec(m_pDb, sql_command.c_str(), nullptr, 0, &m_charBuffer);
+
+  if (rc != 0) {
     throw std::runtime_error(m_errorString);
   }
   uniqueID++;
@@ -46,24 +43,19 @@ std::string Database::ReadVotes()
 {
   std::string sql_command = "SELECT VOTE FROM VOTES";
 
-  char* errorBuffer = m_errorString.data();
-
-  char** results = nullptr;
+  char **results = nullptr;
   int rowsNumber = 0;
   int columnsNumber = 0;
 
-  int rc = sqlite3_get_table(m_pDb, sql_command.c_str(), &results, &rowsNumber, &columnsNumber,
-                             &errorBuffer);
+  int rc = sqlite3_get_table(m_pDb, sql_command.c_str(), &results, &rowsNumber, &columnsNumber, &m_charBuffer);
 
-  if (rc != 0)
-  {
+  if (rc != 0) {
     throw std::runtime_error(m_errorString);
   }
 
   std::string readInput = "";
   int omitColumnName = 1;
-  for (int i = omitColumnName; i < rowsNumber + omitColumnName; i++)
-  {
+  for (int i = omitColumnName; i < rowsNumber + omitColumnName; i++) {
     readInput.append(results[i]);
     readInput.append(" ");
   }
@@ -81,11 +73,9 @@ void Database::CreateTable()
   std::string zErrMsg;
   auto error_buffer = zErrMsg.data();
 
-  char* errorBuffer = m_errorString.data();
-  int rc = sqlite3_exec(m_pDb, sql_command.c_str(), nullptr, 0, &errorBuffer);
+  int rc = sqlite3_exec(m_pDb, sql_command.c_str(), nullptr, 0, &m_charBuffer);
 
-  if (rc != 0)
-  {
+  if (rc != 0) {
     throw std::runtime_error(m_errorString);
   }
 }
@@ -97,8 +87,7 @@ bool Database::TableAlreadyCreated()
   std::string zErrMsg;
   auto error_buffer = zErrMsg.data();
 
-  char* errorBuffer = m_errorString.data();
-  int rc = sqlite3_exec(m_pDb, sql_command.c_str(), nullptr, 0, &errorBuffer);
+  int rc = sqlite3_exec(m_pDb, sql_command.c_str(), nullptr, 0, &m_charBuffer);
 
   return (rc != 0) ? false : true;
 }
