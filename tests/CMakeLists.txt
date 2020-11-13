@@ -9,7 +9,7 @@ set (SOURCES_UT
 
 add_executable(uts ${SOURCES_UT})
 include_directories(../ifc)
-)
+
 
 target_include_directories(uts
   PRIVATE
