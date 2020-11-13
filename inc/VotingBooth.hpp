@@ -4,16 +4,16 @@
 #include "../ifc/IVotingBooth.hpp"
 
 #include <string>
-#include <zmqpp/zmqpp.hpp>
+#include <zmq.hpp>
 
 class VotingBooth final : public IVotingBooth
 {
 public:
   VotingBooth();
-  VotingBooth(const VotingBooth&) = delete;
-  VotingBooth(VotingBooth&&) = default;
-  VotingBooth& operator=(const VotingBooth&) = delete;
-  VotingBooth& operator=(VotingBooth&&) = default;
+  VotingBooth(const VotingBooth &) = delete;
+  VotingBooth(VotingBooth &&) = default;
+  VotingBooth &operator=(const VotingBooth &) = delete;
+  VotingBooth &operator=(VotingBooth &&) = default;
   ~VotingBooth() = default;
 
   void Vote() override;
@@ -22,9 +22,8 @@ public:
   void SendResultsToVoteGatherer() override;
 
 private:
-  zmqpp::context context;
-  zmqpp::socket_type type{ zmqpp::socket_type::req };
-  zmqpp::socket socket{ context, type };
+  zmq::context_t context;
+  zmq::socket_t socket{ context, ZMQ_REQ };
   int votes{ 0 };
   bool run{ true };
 };
