@@ -9,12 +9,14 @@ set (SOURCES_UT
 
 add_executable(uts ${SOURCES_UT})
 include_directories(../ifc)
+)
 
 target_include_directories(uts
   PRIVATE
   ../inc
   ${CONAN_INCLUDE_DIRS_GTEST}
   ${CONAN_INCLUDE_DIRS_CPPZMQ}
+  ${CONAN_INCLUDE_DIRS_ZMQ}
   )
 
 target_link_libraries(uts

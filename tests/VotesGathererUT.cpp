@@ -27,11 +27,6 @@ public:
   VotesGatherer gatherer;
   std::thread thread_booth{ &VotingBooth::Run, &booth };
   std::thread thread_gatherer{ &VotesGatherer::Run, &gatherer };
-
-private:
-  // std::cref() could be used to avoid copy
-  // std::future<void> future_booth = std::async(std::launch::async, &VotingBooth::Run, std::move(booth));
-  // std::future<void> future_gatherer = std::async(std::launch::async, &VotesGatherer::Run, std::move(gatherer));
 };
 
 TEST_F(VotingTest, no_votes)
