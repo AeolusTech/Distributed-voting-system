@@ -17,8 +17,7 @@ void VotingBooth::Vote()
 
 void VotingBooth::Run()
 {
-  while (run)
-  {
+  while (run) {
     SendResultsToVoteGatherer();
   }
 }
@@ -31,11 +30,11 @@ void VotingBooth::Stop()
 void VotingBooth::SendResultsToVoteGatherer()
 {
   std::cout << "Sending vote no: " << votes << "…\n";
-  zmqpp::message message;
-  message << votes;
+  std::array<int, 1> arr{ votes };
+  zmq::message_t message(arr.data(), arr.size());
   socket.send(message);
-  std::string response;
-  socket.receive(response);
+  zmq::message_t received_msg;
+  socket.recv(received_msg);
 
-  std::cout << "Received " << response << "\n";
+  std::cout << "Received " << received_msg.data() << "\n";
 }

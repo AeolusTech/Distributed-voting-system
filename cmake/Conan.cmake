@@ -11,7 +11,9 @@ macro(run_conan)
     NAME
     bincrafters
     URL
-    https://api.bintray.com/conan/bincrafters/public-conan)
+    https://api.bintray.com/conan/bincrafters/public-conan
+    )
+
 
   conan_cmake_run(
     REQUIRES
@@ -20,7 +22,9 @@ macro(run_conan)
     docopt.cpp/0.6.2
     fmt/6.2.0
     spdlog/1.5.0
-    zeromq/4.3.3
+    cppzmq/4.4.1@bincrafters/stable
+    cryptopp/8.2.0
+    gtest/1.10.0
     OPTIONS
     ${CONAN_EXTRA_OPTIONS}
     BASIC_SETUP

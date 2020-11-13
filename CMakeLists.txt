@@ -27,12 +27,6 @@ if (${FORCE_COLORED_OUTPUT})
     endif ()
 endif ()
 
-include(cmake/googletest.cmake)
-fetch_googletest(
-    ${PROJECT_SOURCE_DIR}/cmake
-    ${PROJECT_BINARY_DIR}/googletest
-    )
-
 
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
@@ -92,6 +86,11 @@ endif()
 
 include(cmake/Conan.cmake)
 run_conan()
+
+find_library(ZMQ_LIB libzmq.a REQUIRED)
+find_library(SODIUM_LIB libsodium.a REQUIRED)
+
+
 
 if(ENABLE_TESTING)
   enable_testing()

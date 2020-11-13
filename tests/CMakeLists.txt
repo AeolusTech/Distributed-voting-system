@@ -10,8 +10,21 @@ set (SOURCES_UT
 add_executable(uts ${SOURCES_UT})
 include_directories(../ifc)
 
-target_include_directories(uts PRIVATE ../inc)
-target_link_libraries(uts gtest_main zmq zmqpp dl)
+target_include_directories(uts
+  PRIVATE
+  ../inc
+  ${CONAN_INCLUDE_DIRS_GTEST}
+  ${CONAN_INCLUDE_DIRS_CPPZMQ}
+  )
+
+target_link_libraries(uts
+  ${CONAN_LIB_DIRS_GTEST}/libgtestd.a
+  ${CONAN_LIB_DIRS_GTEST}/libgtest_maind.a
+  ${CONAN_LIB_DIRS_CPPZMQ}
+  ${ZMQ_LIB}
+  ${SODIUM_LIB}
+  pthread
+  dl)
 
 set_target_properties( uts
     PROPERTIES

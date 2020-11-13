@@ -1,6 +1,12 @@
+
+
+
 set (COMMON_LIBS
-    zmq
-    zmqpp
+  ${CONAN_LIB_DIRS_CPPZMQ}
+  ${ZMQ_LIB}
+  ${SODIUM_LIB}
+  pthread
+  dl
 )
 
 set(SOURCES_BOOTH
@@ -18,6 +24,7 @@ set_target_properties( booth
 )
 
 include_directories(../inc)
+include_directories(${CONAN_INCLUDE_DIRS_CPPZMQ})
 
 set(SOURCES_GATHERER
     synchrounous_tcp_daytime_server.cpp
